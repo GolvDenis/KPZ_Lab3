@@ -1,11 +1,12 @@
-﻿using System.Text;
-using System.Threading;
-using ClassLibrary1.Task1;
+﻿using ClassLibrary1.Task1;
 using ClassLibrary1.Task2;
 using ClassLibrary1.Task3;
 using ClassLibrary1.Task4;
 using ClassLibrary1.Task5;
+using ClassLibrary1.Task5.Lab4.Task3;
 using ClassLibrary1.Task6;
+using System.Text;
+using System.Threading;
 internal class Program
 {
     private static void Main(string[] args)
@@ -138,5 +139,29 @@ internal class Program
 
         Console.WriteLine();
         Console.WriteLine("Готово.");
+
+        Console.WriteLine();
+
+        Console.WriteLine("=== Lab 4 Завдання 3 ===");
+
+        var button = new LightElementNode(
+            HtmlTagFactory.GetTag("button"),
+            ElementDisplay.Inline,
+            ElementClosing.Double,
+            new[] { "btn" });
+
+        button.AddChild(new LightTextNode("Натисни мене"));
+
+        var clickListener = new ConsoleEventListener("ClickListener");
+        var mouseListener = new ConsoleEventListener("MouseListener");
+
+        button.AddEventListener("click", clickListener);
+        button.AddEventListener("mouseover", mouseListener);
+
+        Console.WriteLine(button.OuterHTML());
+        Console.WriteLine();
+
+        button.TriggerEvent("mouseover");
+        button.TriggerEvent("click");
     }
 }

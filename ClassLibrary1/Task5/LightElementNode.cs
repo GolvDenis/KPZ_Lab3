@@ -1,9 +1,5 @@
-﻿using ClassLibrary1.Task6;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClassLibrary1.Task5.Lab4.Task3;
+using ClassLibrary1.Task6;
 
 namespace ClassLibrary1.Task5
 {
@@ -14,6 +10,8 @@ namespace ClassLibrary1.Task5
         public ElementClosing ClosingType { get; }
         public List<string> CssClasses { get; } = new List<string>();
         public List<LightNode> Children { get; } = new List<LightNode>();
+
+        private readonly Dictionary<string, List<IEventListener>> _listeners = new Dictionary<string, List<IEventListener>>();
 
         public int ChildrenCount => Children.Count;
 
@@ -38,6 +36,39 @@ namespace ClassLibrary1.Task5
             Children.Add(child);
         }
 
+        public void AddEventListener(string eventName, IEventListener listener)
+        {
+            if (!_listeners.ContainsKey(eventName))
+            {
+                _listeners[eventName] = new List<IEventListener>();
+            }
+
+            _listeners[eventName].Add(listener);
+        }
+
+        public void RemoveEventListener(string eventName, IEventListener listener)
+        {
+            if (_listeners.ContainsKey(eventName))
+            {
+                _listeners[eventName].Remove(listener);
+            }
+        }
+
+        public void TriggerEvent(string eventName)
+        {
+            if (_listeners.ContainsKey(eventName))
+            {
+                foreach (var listener in _listeners[eventName])
+                {
+                    listener.Handle(eventName, this);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Для <{Tag.Name}> немає підписників на '{eventName}'.");
+            }
+        }
+
         public string GetClassesString()
         {
             return CssClasses.Count == 0 ? "" : $" class=\"{string.Join(" ", CssClasses)}\"";
@@ -60,5 +91,6 @@ namespace ClassLibrary1.Task5
             return $"<{Tag.Name}{classes}>{InnerHTML()}</{Tag.Name}>";
         }
     }
+
 
 }
