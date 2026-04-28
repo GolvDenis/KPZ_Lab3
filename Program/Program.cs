@@ -4,6 +4,7 @@ using ClassLibrary1.Task3;
 using ClassLibrary1.Task4;
 using ClassLibrary1.Task5;
 using ClassLibrary1.Task5.Lab4.Task3;
+using ClassLibrary1.Task5.Lab4.Task4;
 using ClassLibrary1.Task6;
 using System.Text;
 using System.Threading;
@@ -163,5 +164,19 @@ internal class Program
 
         button.TriggerEvent("mouseover");
         button.TriggerEvent("click");
+
+        Console.WriteLine();
+
+        Console.WriteLine("=== Lab 4 Завдання 4 ===");
+
+        var localImage = new LightImageNode("Lab4_Task4.jpg", "Локальна картинка");
+        Console.WriteLine(localImage.OuterHTML());
+        Console.WriteLine(localImage.LoadResult);
+
+        Console.WriteLine();
+
+        var webImage = new LightImageNode("https://picsum.photos/200", "З мережі");
+        Console.WriteLine(webImage.OuterHTML());
+        Console.WriteLine(webImage.LoadResult);
     }
 }
