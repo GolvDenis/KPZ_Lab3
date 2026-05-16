@@ -5,13 +5,13 @@ namespace ClassLibrary1.Task5
 {
     public class LightElementNode : LightNode
     {
-        public HtmlTag Tag;
+        public HtmlTag Tag { get; }
         public ElementDisplay DisplayType { get; }
         public ElementClosing ClosingType { get; }
-        public List<string> CssClasses { get; } = new List<string>();
-        public List<LightNode> Children { get; } = new List<LightNode>();
+        public List<string> CssClasses { get; } = new();
+        public List<LightNode> Children { get; } = new();
 
-        private readonly Dictionary<string, List<IEventListener>> _listeners = new Dictionary<string, List<IEventListener>>();
+        private readonly Dictionary<string, List<IEventListener>> _listeners = new();
 
         public int ChildrenCount => Children.Count;
 
@@ -71,7 +71,12 @@ namespace ClassLibrary1.Task5
 
         public string GetClassesString()
         {
-            return CssClasses.Count == 0 ? "" : $" class=\"{string.Join(" ", CssClasses)}\"";
+            return CssClasses.Count == 0 ? string.Empty : $" class=\"{string.Join(" ", CssClasses)}\"";
+        }
+
+        public override IEnumerable<LightNode> GetChildren()
+        {
+            return Children;
         }
 
         public override string InnerHTML()
@@ -91,6 +96,4 @@ namespace ClassLibrary1.Task5
             return $"<{Tag.Name}{classes}>{InnerHTML()}</{Tag.Name}>";
         }
     }
-
-
 }

@@ -4,5 +4,9 @@
     {
         public abstract string OuterHTML();
         public abstract string InnerHTML();
+        public virtual IEnumerable<LightNode> GetChildren()
+        {
+            return Enumerable.Empty<LightNode>();
+        }
     }
 }

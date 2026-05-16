@@ -5,6 +5,7 @@ using ClassLibrary1.Task4;
 using ClassLibrary1.Task5;
 using ClassLibrary1.Task5.Lab4.Task3;
 using ClassLibrary1.Task5.Lab4.Task4;
+using ClassLibrary1.Task5.Patterns.Iterator;
 using ClassLibrary1.Task6;
 using System.Text;
 using System.Threading;
@@ -143,6 +144,9 @@ internal class Program
 
         Console.WriteLine();
 
+
+        // Лабораторна робота 4 ----------------------------------------------------
+
         Console.WriteLine("=== Lab 4 Завдання 3 ===");
 
         var button = new LightElementNode(
@@ -178,5 +182,46 @@ internal class Program
         var webImage = new LightImageNode("https://picsum.photos/200", "З мережі");
         Console.WriteLine(webImage.OuterHTML());
         Console.WriteLine(webImage.LoadResult);
+
+        // МКР 1 ----------------------------------------------------
+
+        // Iterator
+            Console.WriteLine("=== МКР 1: Iterator ===");
+
+            var root = BuildSampleTree();
+
+            var dfs = new DepthFirstHtmlIterator(root);
+            while (dfs.HasNext())
+            {
+                var node = dfs.Next();
+                Console.WriteLine(node.GetType().Name);
+            }
+
+            Console.WriteLine();
+    }
+
+
+        // МКР 1 ----------------------------------------------------
+        private static LightElementNode BuildSampleTree() {
+        var page = new LightElementNode(HtmlTagFactory.GetTag("div"), ElementDisplay.Block, ElementClosing.Double, new[] { "container" });
+
+        var title = new LightElementNode(HtmlTagFactory.GetTag("h1"), ElementDisplay.Block, ElementClosing.Double);
+        title.AddChild(new LightTextNode("Моя сторінка"));
+
+        var list = new LightElementNode(HtmlTagFactory.GetTag("ul"), ElementDisplay.Block, ElementClosing.Double, new[] { "menu" });
+
+        var li1 = new LightElementNode(HtmlTagFactory.GetTag("li"), ElementDisplay.Block, ElementClosing.Double);
+        li1.AddChild(new LightTextNode("Головна"));
+
+        var li2 = new LightElementNode(HtmlTagFactory.GetTag("li"), ElementDisplay.Block, ElementClosing.Double);
+        li2.AddChild(new LightTextNode("Про нас"));
+
+        list.AddChild(li1);
+        list.AddChild(li2);
+
+        page.AddChild(title);
+        page.AddChild(list);
+
+        return page;
     }
 }
