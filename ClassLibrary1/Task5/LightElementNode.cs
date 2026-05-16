@@ -10,6 +10,7 @@ namespace ClassLibrary1.Task5
         public ElementDisplay DisplayType { get; }
         public ElementClosing ClosingType { get; }
         public List<string> CssClasses { get; } = new();
+        public Dictionary<string, string> Styles { get; } = new();
         public List<LightNode> Children { get; } = new();
 
         private readonly Dictionary<string, List<IEventListener>> _listeners = new();
@@ -30,26 +31,49 @@ namespace ClassLibrary1.Task5
             {
                 CssClasses.AddRange(cssClasses);
             }
-
-            OnCreated();
         }
 
         public void AddChild(LightNode child)
         {
             Children.Add(child);
-            child.OnInserted();
         }
 
         public bool RemoveChild(LightNode child)
         {
-            var removed = Children.Remove(child);
+            return Children.Remove(child);
+        }
 
-            if (removed)
+        public void AddClass(string cssClass)
+        {
+            if (string.IsNullOrWhiteSpace(cssClass))
             {
-                child.OnRemoved();
+                return;
             }
 
-            return removed;
+            if (!CssClasses.Contains(cssClass))
+            {
+                CssClasses.Add(cssClass);
+            }
+        }
+
+        public bool RemoveClass(string cssClass)
+        {
+            return CssClasses.Remove(cssClass);
+        }
+
+        public void SetStyle(string name, string value)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+
+            Styles[name] = value ?? string.Empty;
+        }
+
+        public bool RemoveStyle(string name)
+        {
+            return Styles.Remove(name);
         }
 
         public void AddEventListener(string eventName, IEventListener listener)
@@ -90,12 +114,22 @@ namespace ClassLibrary1.Task5
             return CssClasses.Count == 0 ? string.Empty : $" class=\"{string.Join(" ", CssClasses)}\"";
         }
 
+        public string GetStylesString()
+        {
+            if (Styles.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return $" style=\"{string.Join("; ", Styles.Select(x => $"{x.Key}: {x.Value}"))}\"";
+        }
+
         public override IEnumerable<LightNode> GetChildren()
         {
             return Children;
         }
 
-        public override void Accept(IHtmlVisitor visitor)
+        public override void Accept(Patterns.Visitor.IHtmlVisitor visitor)
         {
             visitor.VisitElement(this);
 
@@ -113,13 +147,14 @@ namespace ClassLibrary1.Task5
         public override string OuterHTML()
         {
             string classes = GetClassesString();
+            string styles = GetStylesString();
 
             if (ClosingType == ElementClosing.Single)
             {
-                return $"<{Tag.Name}{classes} />";
+                return $"<{Tag.Name}{classes}{styles} />";
             }
 
-            return $"<{Tag.Name}{classes}>{InnerHTML()}</{Tag.Name}>";
+            return $"<{Tag.Name}{classes}{styles}>{InnerHTML()}</{Tag.Name}>";
         }
     }
 }
