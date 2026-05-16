@@ -9,6 +9,7 @@ namespace ClassLibrary1.Task5
         public LightTextNode(string text)
         {
             Text = text;
+            OnCreated();
         }
 
         public override void Accept(IHtmlVisitor visitor)
@@ -18,6 +19,7 @@ namespace ClassLibrary1.Task5
 
         public override string OuterHTML()
         {
+            OnTextRendered();
             return Text;
         }
 

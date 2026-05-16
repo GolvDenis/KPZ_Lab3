@@ -7,6 +7,7 @@ using ClassLibrary1.Task5.Lab4.Task3;
 using ClassLibrary1.Task5.Lab4.Task4;
 using ClassLibrary1.Task5.Patterns.Iterator;
 using ClassLibrary1.Task5.Patterns.Visitor;
+using ClassLibrary1.Task5.Patterns.TemplateMethod;
 using ClassLibrary1.Task6;
 using System.Text;
 internal class Program
@@ -203,7 +204,7 @@ internal class Program
 
         // Visitor
 
-        Console.WriteLine("=== МКР 2: Visitor ===");
+        Console.WriteLine("=== МКР 1:: Visitor ===");
 
 
         var stats = new HtmlStatisticsVisitor();
@@ -214,6 +215,15 @@ internal class Program
         Console.WriteLine($"Tags: {string.Join(", ", stats.Tags)}");
 
         Console.WriteLine();
+
+        // Template Method
+        Console.WriteLine("=== МКР 1: Template Method ===");
+
+        var template = new DefaultLightNodeLifecycleTemplate();
+
+        Console.WriteLine(template.Execute(root));
+        Console.WriteLine();
+
     }
 
 
