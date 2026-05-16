@@ -5,9 +5,10 @@ using ClassLibrary1.Task4;
 using ClassLibrary1.Task5;
 using ClassLibrary1.Task5.Lab4.Task3;
 using ClassLibrary1.Task5.Lab4.Task4;
+using ClassLibrary1.Task5.Patterns.Command;
 using ClassLibrary1.Task5.Patterns.Iterator;
-using ClassLibrary1.Task5.Patterns.Visitor;
 using ClassLibrary1.Task5.Patterns.TemplateMethod;
+using ClassLibrary1.Task5.Patterns.Visitor;
 using ClassLibrary1.Task6;
 using System.Text;
 internal class Program
@@ -222,6 +223,20 @@ internal class Program
         var template = new DefaultLightNodeLifecycleTemplate();
 
         Console.WriteLine(template.Execute(root));
+        Console.WriteLine();
+
+        Console.WriteLine();
+
+        // Command
+        Console.WriteLine("=== МКР 1: Command ===");
+
+        var page_1 = new LightElementNode(HtmlTagFactory.GetTag("div"), ElementDisplay.Block, ElementClosing.Double);
+        var invoker = new CommandInvoker();
+
+        invoker.Execute(new AddClassCommand(page, "container"));
+        invoker.Execute(new SetStyleCommand(page, "padding", "20px"));
+
+        Console.WriteLine(page.OuterHTML());
         Console.WriteLine();
 
     }
