@@ -6,9 +6,9 @@ using ClassLibrary1.Task5;
 using ClassLibrary1.Task5.Lab4.Task3;
 using ClassLibrary1.Task5.Lab4.Task4;
 using ClassLibrary1.Task5.Patterns.Iterator;
+using ClassLibrary1.Task5.Patterns.Visitor;
 using ClassLibrary1.Task6;
 using System.Text;
-using System.Threading;
 internal class Program
 {
     private static void Main(string[] args)
@@ -186,23 +186,40 @@ internal class Program
         // МКР 1 ----------------------------------------------------
 
         // Iterator
-            Console.WriteLine("=== МКР 1: Iterator ===");
+        Console.WriteLine();
 
-            var root = BuildSampleTree();
+        Console.WriteLine("=== МКР 1: Iterator ===");
 
-            var dfs = new DepthFirstHtmlIterator(root);
-            while (dfs.HasNext())
-            {
-                var node = dfs.Next();
-                Console.WriteLine(node.GetType().Name);
-            }
+        var root = BuildSampleTree();
 
-            Console.WriteLine();
+        var dfs = new DepthFirstHtmlIterator(root);
+        while (dfs.HasNext())
+        {
+            var node = dfs.Next();
+            Console.WriteLine(node.GetType().Name);
+        }
+
+        Console.WriteLine();
+
+        // Visitor
+
+        Console.WriteLine("=== МКР 2: Visitor ===");
+
+
+        var stats = new HtmlStatisticsVisitor();
+        root.Accept(stats);
+
+        Console.WriteLine($"Elements: {stats.ElementCount}");
+        Console.WriteLine($"Text nodes: {stats.TextCount}");
+        Console.WriteLine($"Tags: {string.Join(", ", stats.Tags)}");
+
+        Console.WriteLine();
     }
 
 
-        // МКР 1 ----------------------------------------------------
-        private static LightElementNode BuildSampleTree() {
+    // МКР 1 ----------------------------------------------------
+    private static LightElementNode BuildSampleTree()
+    {
         var page = new LightElementNode(HtmlTagFactory.GetTag("div"), ElementDisplay.Block, ElementClosing.Double, new[] { "container" });
 
         var title = new LightElementNode(HtmlTagFactory.GetTag("h1"), ElementDisplay.Block, ElementClosing.Double);

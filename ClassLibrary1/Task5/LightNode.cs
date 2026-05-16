@@ -1,4 +1,6 @@
-﻿namespace ClassLibrary1.Task5
+﻿using ClassLibrary1.Task5.Patterns.Visitor;
+
+namespace ClassLibrary1.Task5
 {
     public abstract class LightNode
     {
@@ -8,5 +10,6 @@
         {
             return Enumerable.Empty<LightNode>();
         }
+        public abstract void Accept(IHtmlVisitor visitor);
     }
 }
