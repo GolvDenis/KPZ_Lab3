@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClassLibrary1.Task5.Patterns.Visitor;
 
 namespace ClassLibrary1.Task5.Lab4.Task4
 {
@@ -40,6 +41,10 @@ namespace ClassLibrary1.Task5.Lab4.Task4
         public override string InnerHTML()
         {
             return "";
+        }
+
+        public override void Accept(IHtmlVisitor visitor)
+        {
         }
     }
 

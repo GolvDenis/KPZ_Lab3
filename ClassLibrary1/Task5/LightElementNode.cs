@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1.Task5.Lab4.Task3;
+using ClassLibrary1.Task5.Patterns.Visitor;
 using ClassLibrary1.Task6;
 
 namespace ClassLibrary1.Task5
@@ -77,6 +78,16 @@ namespace ClassLibrary1.Task5
         public override IEnumerable<LightNode> GetChildren()
         {
             return Children;
+        }
+
+        public override void Accept(IHtmlVisitor visitor)
+        {
+            visitor.VisitElement(this);
+
+            foreach (var child in Children)
+            {
+                child.Accept(visitor);
+            }
         }
 
         public override string InnerHTML()

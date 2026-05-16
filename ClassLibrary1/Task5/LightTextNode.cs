@@ -1,4 +1,6 @@
-﻿namespace ClassLibrary1.Task5
+﻿using ClassLibrary1.Task5.Patterns.Visitor;
+
+namespace ClassLibrary1.Task5
 {
     public class LightTextNode : LightNode
     {
@@ -7,6 +9,11 @@
         public LightTextNode(string text)
         {
             Text = text;
+        }
+
+        public override void Accept(IHtmlVisitor visitor)
+        {
+            visitor.VisitText(this);
         }
 
         public override string OuterHTML()
