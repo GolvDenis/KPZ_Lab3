@@ -239,6 +239,21 @@ internal class Program
         Console.WriteLine(page.OuterHTML());
         Console.WriteLine();
 
+        // State
+
+        Console.WriteLine("=== МКР 1: State ===");
+
+        var page_2 = new LightElementNode(HtmlTagFactory.GetTag("div"), ElementDisplay.Block, ElementClosing.Double);
+
+        Console.WriteLine(page.State.Name);
+        page.AddChild(new LightTextNode("Test"));
+        Console.WriteLine(page.State.Name);
+        Console.WriteLine(page.OuterHTML());
+        Console.WriteLine(page.State.Name);
+
+        Console.WriteLine();
+
+
     }
 
 
