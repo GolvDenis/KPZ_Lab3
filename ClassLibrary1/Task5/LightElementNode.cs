@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1.Task5.Lab4.Task3;
+using ClassLibrary1.Task5.Patterns.State;
 using ClassLibrary1.Task5.Patterns.Visitor;
 using ClassLibrary1.Task6;
 
@@ -14,6 +15,8 @@ namespace ClassLibrary1.Task5
         public List<LightNode> Children { get; } = new();
 
         private readonly Dictionary<string, List<IEventListener>> _listeners = new();
+
+        public ILightNodeState State { get; private set; }
 
         public int ChildrenCount => Children.Count;
 
@@ -31,16 +34,26 @@ namespace ClassLibrary1.Task5
             {
                 CssClasses.AddRange(cssClasses);
             }
+
+            State = new CreatedState();
         }
 
         public void AddChild(LightNode child)
         {
             Children.Add(child);
+            State = new InsertedState();
         }
 
         public bool RemoveChild(LightNode child)
         {
-            return Children.Remove(child);
+            var removed = Children.Remove(child);
+
+            if (removed)
+            {
+                State = new RemovedState();
+            }
+
+            return removed;
         }
 
         public void AddClass(string cssClass)
@@ -146,6 +159,8 @@ namespace ClassLibrary1.Task5
 
         public override string OuterHTML()
         {
+            State = new RenderedState();
+
             string classes = GetClassesString();
             string styles = GetStylesString();
 
