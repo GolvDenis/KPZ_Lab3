@@ -30,11 +30,26 @@ namespace ClassLibrary1.Task5
             {
                 CssClasses.AddRange(cssClasses);
             }
+
+            OnCreated();
         }
 
         public void AddChild(LightNode child)
         {
             Children.Add(child);
+            child.OnInserted();
+        }
+
+        public bool RemoveChild(LightNode child)
+        {
+            var removed = Children.Remove(child);
+
+            if (removed)
+            {
+                child.OnRemoved();
+            }
+
+            return removed;
         }
 
         public void AddEventListener(string eventName, IEventListener listener)
